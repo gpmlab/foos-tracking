@@ -76,7 +76,6 @@ if __name__ == '__main__':
         tracker = cv2.TrackerMedianFlow_create()
     if tracker_type == 'GOTURN':
         tracker = cv2.TrackerGOTURN_create()
-
     if tracker_type == 'MOSSE':
         tracker = cv2.TrackerMOSSE_create()
     if tracker_type == "CSRT":
@@ -87,7 +86,7 @@ if __name__ == '__main__':
     length = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
     print(f'Number of frames {length}')
 
-    start_frame_number = 4300
+    start_frame_number = 4600
     video.set(cv2.CAP_PROP_POS_FRAMES, start_frame_number)
 
     # Exit if video not opened.
@@ -192,7 +191,7 @@ if __name__ == '__main__':
         counter += 1
 
         # Exit if ESC pressed
-        k = cv2.waitKey(500) & 0xff
+        k = cv2.waitKey(10) & 0xff
         if k == 27:
             break
 
