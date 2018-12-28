@@ -7,6 +7,8 @@ import imutils as imutils
 import numpy as np
 
 
+FOOS_FILE='IMG_1893.MOV'
+
 def transform_frame(frame):
 
     # resize the frame, blur it, and convert it to the HSV
@@ -46,7 +48,7 @@ def draw_bounding_box():
     # Display tracker type on frame
     cv2.putText(frame, tracker_type + " Tracker", (100, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50, 170, 50), 2);
     # Display FPS on frame
-    cv2.putText(frame, "FPS : " + str(int(fps)), (100, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50, 170, 50), 2);
+    cv2.putText(frame, "frame number" + str(counter), (100, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50, 170, 50), 2);
     # Display result
 
 
@@ -82,11 +84,11 @@ if __name__ == '__main__':
         tracker = cv2.TrackerCSRT_create()
 
     # Read video
-    video = cv2.VideoCapture("foos.mp4")
+    video = cv2.VideoCapture(FOOS_FILE)
     length = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
     print(f'Number of frames {length}')
 
-    start_frame_number = 4600
+    start_frame_number = 265
     video.set(cv2.CAP_PROP_POS_FRAMES, start_frame_number)
 
     # Exit if video not opened.
@@ -109,7 +111,7 @@ if __name__ == '__main__':
 
     # Initialize tracker with first frame and bounding box
     ok = tracker.init(frame, bbox)
-
+    #counter = 0
     while True:
         frame_number = 0
         # Read a new frame
@@ -148,7 +150,7 @@ if __name__ == '__main__':
 
             # check to see if enough points have been accumulated in
             # the buffer
-            if counter >= 10 and i == 1 and pts[-10] is not None:
+            if counter >= 10 and i == 1 and len(pts) >=10 :
                 # compute the difference between the x and y
                 # coordinates and re-initialize the direction
                 # text variables
@@ -181,9 +183,10 @@ if __name__ == '__main__':
             # the frame
             cv2.putText(frame, direction, (10, 30), cv2.FONT_HERSHEY_SIMPLEX,
                         0.65, (0, 0, 255), 3)
-            cv2.putText(frame, "dx: {}, dy: {}".format(dX, dY),
-                        (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX,
-                        0.35, (0, 0, 255), 1)
+            # cv2.putText(frame, "dx: {}, dy: {}".format(dX, dY),
+            #             (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX,
+            #             0.35, (0, 0, 255), 1)
+
 
         draw_bounding_box()
 
